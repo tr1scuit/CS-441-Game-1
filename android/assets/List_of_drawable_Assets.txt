@@ -1,0 +1,6 @@
+// we need
+font bitmap
+simple UI sprites
+player sprite
+enemy sprite
+bullet sprite
