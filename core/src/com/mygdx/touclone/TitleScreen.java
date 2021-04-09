@@ -31,7 +31,9 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.font.draw(game.batch, "THIS IS TITLE SCREEN!", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
+        game.font.setColor(1, 1, 1, 1);
+        game.font.draw(game.batch, "Welcome to the \nTouhou Clone!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .8f);
+        game.font.draw(game.batch, "Avoid the bullets\nand survive!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .7f);
         game.batch.end();
     }
 

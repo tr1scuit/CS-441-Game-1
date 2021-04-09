@@ -14,6 +14,9 @@ public class GameScreen extends ScreenAdapter {
     float circleX = 300;
     float circleY = 150;
     float circleRadius = 50;
+    float circlecolor = 0;
+
+    int clickcount = 1;
 
     float xSpeed = 4;
     float ySpeed = 3;
@@ -24,12 +27,16 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        // Clicking Circle
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int x, int y, int pointer, int button) {
                 int renderY = Gdx.graphics.getHeight() - y;
-                if (Vector2.dst(circleX, circleY, x, renderY) < circleRadius) {
+                if (Vector2.dst(circleX, circleY, x, renderY) < circleRadius && clickcount > 5) {
                     game.setScreen(new EndScreen(game));
+                } else if(Vector2.dst(circleX, circleY, x, renderY) < circleRadius){
+                    circlecolor+=0.15;
+                    clickcount++;
                 }
                 return true;
             }
@@ -38,6 +45,9 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+
+        update();
+
         circleX += xSpeed;
         circleY += ySpeed;
 
@@ -52,11 +62,47 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        game.batch.begin();
+        game.batch.draw(game.player, game.player.getX(), game.player.getY());
+        game.batch.end();
+
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        game.shapeRenderer.setColor(0, 1, 0, 1);
+        game.shapeRenderer.setColor(0, circlecolor, 0, 1);
         game.shapeRenderer.circle(circleX, circleY, 75);
         game.shapeRenderer.end();
 
+    }
+
+    // Update the game state before rendering
+    public void update(){
+        // handling the input
+
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown(int x, int y, int pointer, int button) {
+                int renderY = Gdx.graphics.getHeight() - y;
+
+                // clicking circle
+                if (Vector2.dst(circleX, circleY, x, renderY) < circleRadius && clickcount > 5) {
+                    game.setScreen(new EndScreen(game));
+                } else if(Vector2.dst(circleX, circleY, x, renderY) < circleRadius){
+                    circlecolor+=0.15;
+                    clickcount++;
+                } else{
+                    // moving player if circle is not clicked
+                    game.player.setX(x);
+                    game.player.setY(renderY);
+                }
+                return true;
+            }
+            @Override
+            public boolean touchDragged(int x, int y, int pointer) {
+                int renderY = Gdx.graphics.getHeight() - y;
+                game.player.setX(x);
+                game.player.setY(renderY);
+                return true;
+            }
+        });
     }
 
     @Override

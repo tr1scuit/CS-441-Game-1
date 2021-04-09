@@ -24,7 +24,6 @@ public class EndScreen extends ScreenAdapter {
                 if (keyCode == Input.Keys.ENTER) {
                     game.setScreen(new TitleScreen(game));
                 }
-
                 return true;
             }
         });
@@ -36,8 +35,9 @@ public class EndScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.font.draw(game.batch, "You win!", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
-        game.font.draw(game.batch, "Press enter to restart.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
+        game.font.draw(game.batch, "You Clicked Circle 5 times!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .75f);
+        game.font.draw(game.batch, "You've completed this game:", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .6f);
+        game.font.draw(game.batch, "Press enter\nrestart.", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();
 
     }
